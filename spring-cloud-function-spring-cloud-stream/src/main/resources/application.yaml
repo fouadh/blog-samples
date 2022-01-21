@@ -1,0 +1,27 @@
+spring:
+  cloud:
+    function:
+      definition: scatter;gather
+    stream:
+      bindings:
+        batchConsumer-in-0:
+          consumer:
+            batch-mode: true
+        consumer-in-0:
+          group: springboot
+        scatter-out-0:
+          group: multipleOf3
+        scatter-out-1:
+          group: nonMultipleOf3
+        gather-in-0:
+          destination: scatter-out-0
+          group: multipleOf3
+        gather-in-1:
+          destination: scatter-out-1
+          group: nonMultipleOf3
+      rabbit:
+        bindings:
+          batchConsumer-in-0:
+            enable-batching: true
+            batch-size: 5
+            receive-timeout: 1000
